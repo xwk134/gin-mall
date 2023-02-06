@@ -1,9 +1,11 @@
 package conf
 
 import (
+	"fmt"
 	"gin-mall/dao"
-	"github.com/go-ini/ini"
 	"strings"
+
+	"gopkg.in/ini.v1"
 )
 
 var (
@@ -39,10 +41,13 @@ var (
 
 func Init() {
 	// 本地读取环境变量
+
 	file, err := ini.Load("./conf/config.ini")
+
 	if err != nil {
-		panic(err)
+		fmt.Printf("Fail to read file: %v", err)
 	}
+
 	LoadServer(file)
 	LoadMySql(file)
 	LoadRedis(file)
@@ -57,36 +62,36 @@ func Init() {
 }
 
 func LoadServer(file *ini.File) {
-	AppMode = file.Section("service").Key(AppMode).String()
-	HttpPort = file.Section("service").Key(HttpPort).String()
+	AppMode = file.Section("service").Key("AppMode").String()
+	HttpPort = file.Section("service").Key("HttpPort").String()
 }
 
 func LoadMySql(file *ini.File) {
-	DB = file.Section("mysql").Key(DB).String()
-	DbHost = file.Section("mysql").Key(DbHost).String()
-	DbPort = file.Section("mysql").Key(DbPort).String()
-	DbUser = file.Section("mysql").Key(DbUser).String()
-	DbPassword = file.Section("mysql").Key(DbPassword).String()
-	DbName = file.Section("mysql").Key(DbName).String()
+	DB = file.Section("mysql").Key("DB").String()
+	DbHost = file.Section("mysql").Key("DbHost").String()
+	DbPort = file.Section("mysql").Key("DbPort").String()
+	DbUser = file.Section("mysql").Key("DbUser").String()
+	DbPassword = file.Section("mysql").Key("DbPassword").String()
+	DbName = file.Section("mysql").Key("DbName").String()
 
 }
 
 func LoadRedis(file *ini.File) {
-	RedisDb = file.Section("redis").Key(RedisDb).String()
-	RedisAddr = file.Section("redis").Key(RedisAddr).String()
-	RedisPw = file.Section("redis").Key(RedisPw).String()
-	RedisDbName = file.Section("redis").Key(RedisDbName).String()
+	RedisDb = file.Section("redis").Key("RedisDb").String()
+	RedisAddr = file.Section("redis").Key("RedisAddr").String()
+	RedisPw = file.Section("redis").Key("RedisPw").String()
+	RedisDbName = file.Section("redis").Key("RedisDbName").String()
 }
 
 func LoadEmail(file *ini.File) {
-	ValidEmail = file.Section("email").Key(ValidEmail).String()
-	SmtpHost = file.Section("email").Key(SmtpHost).String()
-	SmtpEmail = file.Section("email").Key(SmtpEmail).String()
-	SmtpPass = file.Section("email").Key(SmtpPass).String()
+	ValidEmail = file.Section("email").Key("ValidEmail").String()
+	SmtpHost = file.Section("email").Key("SmtpHost").String()
+	SmtpEmail = file.Section("email").Key("SmtpEmail").String()
+	SmtpPass = file.Section("email").Key("SmtpPass").String()
 }
 
 func LoadPhotoPath(file *ini.File) {
-	Host = file.Section("path").Key(Host).String()
-	ProductPath = file.Section("path").Key(ProductPath).String()
-	AvatarPath = file.Section("path").Key(AvatarPath).String()
+	Host = file.Section("path").Key("Host").String()
+	ProductPath = file.Section("path").Key("ProductPath").String()
+	AvatarPath = file.Section("path").Key("AvatarPath").String()
 }
