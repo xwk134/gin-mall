@@ -10,6 +10,8 @@ require (
 	gorm.io/plugin/dbresolver v1.4.1
 )
 
+require github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
+
 require (
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect

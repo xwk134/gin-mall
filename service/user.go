@@ -17,7 +17,7 @@ type UserService struct {
 	Key      string `json:"key" form:"key"`
 }
 
-func (service UserService) Register(ctx context.Context) serializer.Response {
+func (service *UserService) Register(ctx context.Context) serializer.Response {
 	var user model.User
 	code := e.Success
 	if service.Key == "" || len(service.Key) != 16 {
@@ -72,4 +72,31 @@ func (service UserService) Register(ctx context.Context) serializer.Response {
 		Status: code,
 		Msg:    e.GetMsg(code),
 	}
+}
+
+func (service *UserService) Login(ctx context.Context) serializer.Response {
+	var user *model.User
+	code := e.Success
+	userDao := dao.NewUserDao(ctx)
+	// 判断用户名存不存在
+	user, exist, err := userDao.ExistOrNotByUserName(service.UserName)
+	if !exist || err != nil {
+		code = e.ErrorExisUserNotFound
+		return serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
+			Data:   "用户不存在，请先注册",
+		}
+	}
+	// 校验密码
+	if user.CheckPassword(service.Password) == false {
+		code = e.ErrorNotCompare
+		return serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
+			Data:   "密码错误，请重新登录",
+		}
+	}
+	// token 签发
+	token,err := util.
 }
